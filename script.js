@@ -73,99 +73,65 @@
   }
 
   /* ==========================================================
-     3. CARROSSEL COVERFLOW 3D — com vídeo real
+     3. CARROSSEL SIMPLES — navegação via setas e pontos
      ========================================================== */
   const trilho = document.getElementById("trilho");
-  const slides = [...trilho.querySelectorAll(".slide")];
-  const pontos = document.getElementById("pontos");
-  let atual = 0;
+  const pontosContainer = document.getElementById("pontos");
+  const btnAnt = document.getElementById("anterior");
+  const btnProx = document.getElementById("proximo");
 
-  function pausarTodos(exceto){
-    slides.forEach(s => {
-      if(s === exceto) return;
-      const v = s.querySelector(".slide__video");
-      if(v && !v.paused) v.pause();
-    });
-  }
+  if (trilho) {
+    const slides = [...trilho.querySelectorAll(".slide")];
 
-  slides.forEach((s,i) => {
-    const b = document.createElement("button");
-    b.className = "ponto"; b.type = "button";
-    b.setAttribute("aria-label", "Ir para o vídeo " + (i+1));
-    b.addEventListener("click", () => irPara(i));
-    pontos.appendChild(b);
-
-    const video = s.querySelector(".slide__video");
-    const duracao = s.querySelector(".slide__dur");
-
-    s.addEventListener("click", () => {
-      if(i !== atual){ irPara(i); return; }
-      if(!video) return;
-      if(video.paused){
-        pausarTodos(s);
-        video.play().catch(() => {
-          // sem arquivo de vídeo ainda em videos/ — nada a fazer, a capa continua visível
+    // Cria os pontos de navegação dinamicamente
+    if (pontosContainer && slides.length > 0) {
+      slides.forEach((_, i) => {
+        const b = document.createElement("button");
+        b.className = "ponto" + (i === 0 ? " ativo" : "");
+        b.type = "button";
+        b.setAttribute("aria-label", "Ir para o vídeo " + (i + 1));
+        b.addEventListener("click", () => {
+          slides[i].scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
         });
-      } else {
-        video.pause();
-      }
-    });
-
-    if(video){
-      video.addEventListener("play",  () => s.classList.add("tocando"));
-      video.addEventListener("pause", () => s.classList.remove("tocando"));
-      video.addEventListener("ended", () => s.classList.remove("tocando"));
-      video.addEventListener("loadedmetadata", () => {
-        if(duracao && isFinite(video.duration)){
-          const total = Math.round(video.duration);
-          const m = Math.floor(total/60), sgs = String(total%60).padStart(2,"0");
-          duracao.textContent = `${m}:${sgs}`;
-        }
+        pontosContainer.appendChild(b);
       });
     }
-  });
 
-  function irPara(i){
-    atual = (i + slides.length) % slides.length;
-    pausarTodos(slides[atual]);
-    desenharCarrossel();
-  }
-  function desenharCarrossel(){
-    const estreito = window.innerWidth < 760;
-    const desloc = estreito ? 175 : 300;
-    const prof = estreito ? 190 : 260;
-    slides.forEach((s,i) => {
-      let d = i - atual;
-      if(d > slides.length/2) d -= slides.length;
-      if(d < -slides.length/2) d += slides.length;
-      const abs = Math.abs(d);
-      s.style.transform =
-        `translate(-50%,-50%) translateX(${d*desloc}px) translateZ(${-abs*prof}px) rotateY(${d*-34}deg) scale(${1 - abs*0.06})`;
-      s.style.opacity = abs > 2 ? 0 : (1 - abs*0.26);
-      s.style.filter = `brightness(${1 - abs*0.3}) saturate(${1 - abs*0.25})`;
-      s.style.zIndex = String(50 - abs);
-      s.style.pointerEvents = abs > 2 ? "none" : "auto";
-      s.setAttribute("aria-hidden", abs > 2 ? "true" : "false");
-    });
-    [...pontos.children].forEach((p,i) => p.classList.toggle("ativo", i === atual));
-  }
-  document.getElementById("proximo").addEventListener("click", () => irPara(atual+1));
-  document.getElementById("anterior").addEventListener("click", () => irPara(atual-1));
-  window.addEventListener("keydown", e => {
-    if(e.key === "ArrowRight") irPara(atual+1);
-    if(e.key === "ArrowLeft") irPara(atual-1);
-  });
-  // arrastar
-  let x0 = null;
-  trilho.addEventListener("pointerdown", e => { x0 = e.clientX; });
-  trilho.addEventListener("pointerup", e => {
-    if(x0 === null) return;
-    const dx = e.clientX - x0; x0 = null;
-    if(Math.abs(dx) > 55) irPara(atual + (dx < 0 ? 1 : -1));
-  });
-  window.addEventListener("resize", desenharCarrossel);
-  desenharCarrossel();
+    // Ações dos botões de seta
+    if (btnAnt) {
+      btnAnt.addEventListener("click", () => {
+        trilho.scrollBy({ left: -trilho.clientWidth * 0.8, behavior: "smooth" });
+      });
+    }
 
+    if (btnProx) {
+      btnProx.addEventListener("click", () => {
+        trilho.scrollBy({ left: trilho.clientWidth * 0.8, behavior: "smooth" });
+      });
+    }
+
+    // Atualiza o ponto ativo ao rolar o carrossel
+    trilho.addEventListener("scroll", () => {
+      const centroTrilho = trilho.scrollLeft + trilho.clientWidth / 2;
+      let indiceAtivo = 0;
+      let menorDistancia = Infinity;
+
+      slides.forEach((slide, i) => {
+        const centroSlide = slide.offsetLeft + slide.clientWidth / 2;
+        const dist = Math.abs(centroTrilho - centroSlide);
+        if (dist < menorDistancia) {
+          menorDistancia = dist;
+          indiceAtivo = i;
+        }
+      });
+
+      if (pontosContainer) {
+        [...pontosContainer.children].forEach((p, i) => {
+          p.classList.toggle("ativo", i === indiceAtivo);
+        });
+      }
+    }, { passive: true });
+  }
 
   /* ==========================================================
      4. FORMULÁRIO → HYPERLINK PARA O WHATSAPP
