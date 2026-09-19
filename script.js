@@ -73,12 +73,20 @@
   }
 
   /* ==========================================================
-     3. CARROSSEL COVERFLOW 3D
+     3. CARROSSEL COVERFLOW 3D — com vídeo real
      ========================================================== */
   const trilho = document.getElementById("trilho");
   const slides = [...trilho.querySelectorAll(".slide")];
   const pontos = document.getElementById("pontos");
   let atual = 0;
+
+  function pausarTodos(exceto){
+    slides.forEach(s => {
+      if(s === exceto) return;
+      const v = s.querySelector(".slide__video");
+      if(v && !v.paused) v.pause();
+    });
+  }
 
   slides.forEach((s,i) => {
     const b = document.createElement("button");
@@ -86,15 +94,40 @@
     b.setAttribute("aria-label", "Ir para o vídeo " + (i+1));
     b.addEventListener("click", () => irPara(i));
     pontos.appendChild(b);
+
+    const video = s.querySelector(".slide__video");
+    const duracao = s.querySelector(".slide__dur");
+
     s.addEventListener("click", () => {
       if(i !== atual){ irPara(i); return; }
-      const url = s.dataset.video;
-      if(url) window.open(url, "_blank", "noopener");
+      if(!video) return;
+      if(video.paused){
+        pausarTodos(s);
+        video.play().catch(() => {
+          // sem arquivo de vídeo ainda em videos/ — nada a fazer, a capa continua visível
+        });
+      } else {
+        video.pause();
+      }
     });
+
+    if(video){
+      video.addEventListener("play",  () => s.classList.add("tocando"));
+      video.addEventListener("pause", () => s.classList.remove("tocando"));
+      video.addEventListener("ended", () => s.classList.remove("tocando"));
+      video.addEventListener("loadedmetadata", () => {
+        if(duracao && isFinite(video.duration)){
+          const total = Math.round(video.duration);
+          const m = Math.floor(total/60), sgs = String(total%60).padStart(2,"0");
+          duracao.textContent = `${m}:${sgs}`;
+        }
+      });
+    }
   });
 
   function irPara(i){
     atual = (i + slides.length) % slides.length;
+    pausarTodos(slides[atual]);
     desenharCarrossel();
   }
   function desenharCarrossel(){
@@ -133,39 +166,59 @@
   window.addEventListener("resize", desenharCarrossel);
   desenharCarrossel();
 
+
   /* ==========================================================
-     4. FORMULÁRIO → WHATSAPP
+     4. FORMULÁRIO → HYPERLINK PARA O WHATSAPP
+     O botão "enviar" agora é um <a>: o href é recalculado a cada
+     campo digitado, então ele já é um link válido para o WhatsApp
+     mesmo sem clicar — clique direito → abrir em nova aba também funciona.
      ========================================================== */
-  const TELEFONE = "5544999999999"; // ← troque pelo número real (55 + DDD + número)
+  const TELEFONE = "5544999027819"; // ← troque pelo número real (55 + DDD + número)
   const aviso = document.getElementById("aviso");
+  const linkEnviar = document.getElementById("enviar");
+  const camposForm = ["f-nome","f-data","f-local","f-tipo","f-msg"].map(id => document.getElementById(id));
 
   document.querySelectorAll("[data-plano]").forEach(a => {
     a.addEventListener("click", () => {
       document.getElementById("f-tipo").value = a.dataset.plano;
+      atualizarLink();
     });
   });
 
-  document.getElementById("enviar").addEventListener("click", () => {
+  function atualizarLink(){
     const nome = document.getElementById("f-nome").value.trim();
     const data = document.getElementById("f-data").value;
     const local = document.getElementById("f-local").value.trim();
     const tipo = document.getElementById("f-tipo").value;
     const msg = document.getElementById("f-msg").value.trim();
+    const dataBR = data ? data.split("-").reverse().join("/") : "a combinar";
 
+    const texto =
+      `Olá, Lucas! Sou ${nome || "(seu nome)"}.\n` +
+      `Data: ${dataBR}\nLocal: ${local || "(cidade e local)"}\nFormato: ${tipo}\n` +
+      (msg ? `Música em mente: ${msg}\n` : "") +
+      `Essa data está livre?`;
+
+    linkEnviar.href = "https://wa.me/5544999027819?text=" + encodeURIComponent(texto);
+    return {nome, data, local};
+  }
+
+  camposForm.forEach(campo => {
+    campo.addEventListener("input", atualizarLink);
+    campo.addEventListener("change", atualizarLink);
+  });
+  atualizarLink(); // deixa o link já válido assim que a página carrega
+
+  linkEnviar.addEventListener("click", (e) => {
+    const {nome, data, local} = atualizarLink();
     if(!nome || !data || !local){
+      e.preventDefault();
       aviso.dataset.estado = "erro";
       aviso.textContent = "Faltou nome, data ou local. Preencha os três e eu consigo responder com o valor certo.";
       return;
     }
-    const dataBR = data.split("-").reverse().join("/");
-    const texto =
-      `Olá, Lucas! Sou ${nome}.\n` +
-      `Data: ${dataBR}\nLocal: ${local}\nFormato: ${tipo}\n` +
-      (msg ? `Música em mente: ${msg}\n` : "") +
-      `Essa data está livre?`;
     aviso.dataset.estado = "";
     aviso.textContent = "Abrindo o WhatsApp com sua mensagem pronta…";
-    window.open("https://wa.me/" + TELEFONE + "?text=" + encodeURIComponent(texto), "_blank", "noopener");
   });
 
   /* ==========================================================
@@ -174,12 +227,15 @@
   const canvas = document.getElementById("palco3d");
   if(typeof THREE === "undefined" || !canvas) return;
 
+  // telas pequenas ou processadores fracos: cena mais leve
+  const leve = window.innerWidth < 820 || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
+
   let renderer;
   try{
-    renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true, powerPreference:"high-performance"});
+    renderer = new THREE.WebGLRenderer({canvas, antialias:!leve, alpha:true, powerPreference:"high-performance"});
   }catch(err){ return; }
 
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, leve ? 1.15 : 1.6));
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.outputEncoding = THREE.sRGBEncoding;
 
@@ -322,9 +378,13 @@
   teclado.scale.setScalar(0.62);
   cena.add(teclado);
 
+  // cor emissiva das teclas é fixada uma única vez aqui —
+  // no laço de animação só a intensidade muda, o que é bem mais barato
+  teclas.forEach(t => t.material.emissive && t.material.emissive.setHex(0x6d28d9));
+
   // aro orbital
   const aro = new THREE.Mesh(
-    new THREE.TorusGeometry(15, 0.045, 8, 160),
+    new THREE.TorusGeometry(15, 0.045, 6, leve ? 64 : 120),
     new THREE.MeshBasicMaterial({color:0x8b5cf6, transparent:true, opacity:0.4})
   );
   aro.rotation.x = Math.PI/2.1;
@@ -334,7 +394,7 @@
   cena.add(aro2);
 
   // poeira estelar
-  const qtd = 900;
+  const qtd = leve ? 260 : 550;
   const posicoes = new Float32Array(qtd*3);
   for(let i=0;i<qtd;i++){
     posicoes[i*3]   = (Math.random()-0.5)*100;
@@ -348,16 +408,17 @@
 
   // notas musicais flutuantes (sprites desenhados em canvas)
   function spriteNota(glifo){
-    const c = document.createElement("canvas"); c.width = c.height = 128;
+    const c = document.createElement("canvas"); c.width = c.height = 96;
     const g = c.getContext("2d");
-    g.fillStyle = "#c4b5fd"; g.font = "96px Georgia, serif";
+    g.fillStyle = "#c4b5fd"; g.font = "72px Georgia, serif";
     g.textAlign = "center"; g.textBaseline = "middle";
-    g.fillText(glifo, 64, 66);
+    g.fillText(glifo, 48, 50);
     return new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c), transparent:true, opacity:0.55, depthWrite:false});
   }
   const glifos = ["♪","♫","♩","𝄞"];
   const notas = [];
-  for(let i=0;i<26;i++){
+  const qtdNotas = leve ? 8 : 16;
+  for(let i=0;i<qtdNotas;i++){
     const s = new THREE.Sprite(spriteNota(glifos[i % glifos.length]));
     s.position.set((Math.random()-0.5)*54, (Math.random()-0.5)*34, (Math.random()-0.5)*34 - 8);
     s.scale.setScalar(1.1 + Math.random()*1.5);
@@ -399,9 +460,16 @@
   let ativo = true, relogio = new THREE.Clock();
   document.addEventListener("visibilitychange", () => { ativo = !document.hidden; if(ativo) relogio.getDelta(); });
 
-  function animar(){
+  // em telas/processadores leves, limita a ~30 quadros por segundo:
+  // metade do trabalho de CPU/GPU, sem diferença perceptível numa cena de fundo
+  const intervaloMinimo = leve ? 1000/30 : 0;
+  let ultimoQuadro = 0;
+
+  function animar(agora){
     requestAnimationFrame(animar);
     if(!ativo) return;
+    if(intervaloMinimo && agora - ultimoQuadro < intervaloMinimo) return;
+    ultimoQuadro = agora;
     const dt = Math.min(relogio.getDelta(), 0.05);
     const tempo = relogio.elapsedTime;
 
@@ -428,17 +496,15 @@
     teclado.scale.setScalar(atualPose.esc);
     camera.position.z = atualPose.cam;
 
-    // teclas tocando sozinhas
+    // teclas tocando sozinhas — em telas leves, anima só a metade das teclas
     if(!menosMovimento){
-      for(let i=0;i<teclas.length;i++){
+      const passo = leve ? 2 : 1;
+      for(let i=0;i<teclas.length;i+=passo){
         const fase = Math.sin(tempo*2.1 + i*0.55);
         const pressiona = fase > 0.94 ? -0.16 : 0;
         teclas[i].rotation.x = lerp(teclas[i].rotation.x, pressiona, 0.16);
         const m = teclas[i].material;
-        if(m.emissive){
-          m.emissive.setHex(0x6d28d9);
-          m.emissiveIntensity = lerp(m.emissiveIntensity || 0, fase > 0.94 ? 0.75 : 0, 0.14);
-        }
+        m.emissiveIntensity = lerp(m.emissiveIntensity || 0, fase > 0.94 ? 0.75 : 0, 0.14);
       }
     }
 
