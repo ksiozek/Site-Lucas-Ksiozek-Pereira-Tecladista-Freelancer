@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lucas Ksiozek Pereira — Tecladista de cerimônias em Umuarama</title>
+<meta name="description" content="Lucas Ksiozek Pereira, 19 anos, tecladista de casamentos e cerimônias em Umuarama e região. Teclado ao vivo, repertório sob medida, Casio CT-X5000.">
+<meta name="theme-color" content="#050308">
+
+<meta property="og:title" content="Lucas Ksiozek Pereira — Tecladista de cerimônias">
+<meta property="og:description" content="Teclado ao vivo para casamentos em Umuarama e região.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;0,900;1,400;1,600;1,900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="progresso" id="progresso"></div>
+
+<!-- ENVELOPAMENTO MUSICAL -->
+<div class="envelope" aria-hidden="true">
+  <div class="envelope__halo"></div>
+  <div class="envelope__pauta" id="pauta"></div>
+  <div class="envelope__grao"></div>
+  <div class="envelope__vinheta"></div>
+</div>
+
+<!-- PALCO 3D (Casio CT-X5000) -->
+<canvas id="palco3d" aria-hidden="true"></canvas>
+
+<header class="nav" id="nav">
+  <a class="marca" href="#topo" aria-label="Lucas Ksiozek Pereira — início">
+    <span class="marca__selo">LK</span>
+    <span class="marca__nome">Lucas Ksiozek<span>tecladista</span></span>
+  </a>
+
+  <nav aria-label="Principal">
+    <ul class="menu" id="menu">
+      <li><a href="#historia">MINHA HISTÓRIA</a></li>
+      <li><a href="#contrate">CONTRATE-ME</a></li>
+      <li><a href="#portfolio">PORTFÓLIO</a></li>
+      <li><a href="#feedbacks">FEEDBACKS</a></li>
+    </ul>
+  </nav>
+
+  <a class="btn btn--nav" href="#contrate">Ver datas livres</a>
+
+  <button class="hamburguer" id="hamburguer" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu">
+    <i></i><i></i><i></i>
+  </button>
+</header>
+
+<main class="pagina" id="topo">
+
+  <!-- ══════════════ HERO ══════════════ -->
+  <section class="hero">
+    <div class="faixa hero__grade">
+      <div>
+        <p class="hero__local">Umuarama e região · Paraná</p>
+        <h1 class="hero__nome">
+          <span class="linha"><span>Lucas</span></span>
+          <span class="linha"><span class="ks">Ksiozek</span></span>
+          <span class="linha"><span>Pereira</span></span>
+        </h1>
+        <p class="hero__frase">
+          Toco teclado ao vivo em casamentos. A noiva entra, e o que se ouve não é uma
+          playlist — é alguém tocando para ela, naquele segundo, naquele andar.
+        </p>
+        <div class="hero__acoes">
+          <a class="btn" href="#contrate">Consultar minha data</a>
+          <a class="btn btn--fantasma" href="#portfolio">Ouvir uma cerimônia</a>
+        </div>
+      </div>
+
+      <dl class="ficha">
+        <div><dt>TOCANDO DESDE</dt><dd>14 anos</dd></div>
+        <div><dt>EM CERIMÔNIAS DESDE</dt><dd>2023</dd></div>
+        <div><dt>INSTRUMENTO</dt><dd>Casio CT-X5000</dd></div>
+      </dl>
+    </div>
+
+    <p class="rolar" aria-hidden="true"><i></i>role</p>
+  </section>
+
+  <div class="marquise" aria-hidden="true">
+    <div class="marquise__trilha" id="marquise">
+      <span>Entrada das damas <b>♪</b> Entrada da noiva <b>♪</b> Ave Maria <b>♪</b> Canon em Ré <b>♪</b> Alianças <b>♪</b> Votos <b>♪</b> Adoração <b>♪</b> Saída dos noivos <b>♪</b></span>
+      <span>Entrada das damas <b>♪</b> Entrada da noiva <b>♪</b> Ave Maria <b>♪</b> Canon em Ré <b>♪</b> Alianças <b>♪</b> Votos <b>♪</b> Adoração <b>♪</b> Saída dos noivos <b>♪</b></span>
+    </div>
+  </div>
+
+  <!-- ══════════════ MINHA HISTÓRIA ══════════════ -->
+  <section id="historia">
+    <div class="faixa">
+      <div class="cabecalho">
+        <div class="revela">
+          <p class="assinatura">Minha história</p>
+          <h2 class="titulo">Começou com<br><em>um vídeo</em> na TV</h2>
+        </div>
+        <p class="corpo revela" data-atraso="1">
+          Eu vi no Domingão do Faustão um menino da Bahia sentar ao piano e tocar.
+          Não sei explicar direito o que aconteceu ali — só sei que achei aquilo a coisa
+          mais interessante que eu já tinha visto, e quis fazer igual. Tinha 14 anos.
+          Hoje tenho 19 e é assim que eu trabalho.
+        </p>
+      </div>
+
+      <ol class="tempo">
+        <li class="tempo__item revela">
+          <span class="tempo__ano">O estalo</span>
+          <div>
+            <h3 class="tempo__titulo">Um menino da Bahia no Domingão</h3>
+            <p class="tempo__texto">
+              O vídeo passou, e eu fiquei com aquilo na cabeça. Foi a primeira vez que
+              teclado deixou de ser um objeto e virou <em>uma possibilidade</em>.
+            </p>
+          </div>
+        </li>
+        <li class="tempo__item revela">
+          <span class="tempo__ano">14</span>
+          <div>
+            <h3 class="tempo__titulo">Os primeiros acordes, sozinho</h3>
+            <p class="tempo__texto">
+              Comecei tirando de ouvido, errando muito e insistindo mais. Antes de ter
+              professor, eu já tinha teimosia.
+            </p>
+          </div>
+        </li>
+        <li class="tempo__item revela">
+          <span class="tempo__ano">6 meses</span>
+          <div>
+            <h3 class="tempo__titulo">Black Soul — com Rodrigo Grejanim</h3>
+            <p class="tempo__texto">
+              Meia dúzia de meses que organizaram tudo o que eu vinha fazendo no chute:
+              levada, tempo, mão esquerda sustentando a música.
+            </p>
+          </div>
+        </li>
+        <li class="tempo__item revela">
+          <span class="tempo__ano">2 anos</span>
+          <div>
+            <h3 class="tempo__titulo">Conservatório Santa Cecília — com Eloísa Araújo</h3>
+            <p class="tempo__texto">
+              Dois anos de estudo formal: leitura, harmonia, repertório e o cuidado de
+              quem toca para os outros, não para si.
+            </p>
+          </div>
+        </li>
+        <li class="tempo__item revela">
+          <span class="tempo__ano">2023</span>
+          <div>
+            <h3 class="tempo__titulo">A primeira cerimônia</h3>
+            <p class="tempo__texto">
+              A porta abriu, a noiva entrou e o teclado era meu. Desde então,
+              cerimônia é onde eu me sinto mais em casa.
+            </p>
+          </div>
+        </li>
+        <li class="tempo__item revela">
+          <span class="tempo__ano">Hoje</span>
+          <div>
+            <h3 class="tempo__titulo">19 anos, agenda de Umuarama e região</h3>
+            <p class="tempo__texto">
+              Igreja, capela, chácara ou ao ar livre. Levo o Casio CT-X5000, o som e o
+              repertório que os noivos escolheram comigo. Só a cerimônia — é nela que
+              eu me concentro.
+            </p>
+          </div>
+        </li>
+      </ol>
+
+      <blockquote class="citacao revela">
+        <p>Ninguém lembra do nome da música. Todo mundo lembra de como ficou aquele minuto.</p>
+        <cite>Lucas Ksiozek Pereira</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- ══════════════ CONTRATE-ME ══════════════ -->
+  <section id="contrate">
+    <div class="faixa">
+      <div class="cabecalho">
+        <div class="revela">
+          <p class="assinatura">Contrate-me</p>
+          <h2 class="titulo">Escolha o<br><em>formato</em></h2>
+        </div>
+        <p class="corpo revela" data-atraso="1">
+          Eu toco a cerimônia — da entrada à saída dos noivos. Festa, jantar e pista
+          ficam com o DJ ou com a banda; meu trabalho termina quando vocês saem pela
+          porta da igreja. Escolha o ponto de partida, me conte a data e o local, e eu
+          volto com o valor fechado e o repertório sugerido.
+        </p>
+      </div>
+
+      <div class="planos" id="planos">
+        <article class="plano revela">
+          <span class="plano__brilho"></span>
+          <h3>Teclado solo</h3>
+          <p class="plano__nota">Da entrada à saída dos noivos</p>
+          <ul>
+            <li>Teclado ao vivo durante toda a cerimônia</li>
+            <li>Repertório escolhido com os noivos</li>
+            <li>Som próprio para igreja ou ar livre</li>
+            <li>Ensaio da entrada no próprio dia</li>
+          </ul>
+          <a class="btn btn--fantasma" href="#orcamento" data-plano="Teclado solo">Pedir orçamento</a>
+        </article>
+
+        <article class="plano plano--destaque revela" data-atraso="1">
+          <span class="plano__brilho"></span>
+          <span class="plano__selo">MAIS PEDIDO</span>
+          <h3>Teclado e voz</h3>
+          <p class="plano__nota">Acompanho quem canta</p>
+          <ul>
+            <li>Tudo do formato Teclado solo</li>
+            <li>Acompanhamento de cantor, dupla ou coral</li>
+            <li>Tom ajustado para a voz de quem canta</li>
+            <li>Um ensaio antes do dia da cerimônia</li>
+          </ul>
+          <a class="btn" href="#orcamento" data-plano="Teclado e voz">Pedir orçamento</a>
+        </article>
+
+        <article class="plano revela" data-atraso="2">
+          <span class="plano__brilho"></span>
+          <h3>Outras cerimônias</h3>
+          <p class="plano__nota">Culto, bodas, batizado, formatura</p>
+          <ul>
+            <li>Mesmo cuidado do casamento, outro rito</li>
+            <li>Repertório montado com você ou com a igreja</li>
+            <li>Arranjo de música que não é do meu repertório</li>
+            <li>Áudio do arranjo enviado antes para aprovação</li>
+          </ul>
+          <a class="btn btn--fantasma" href="#orcamento" data-plano="Outras cerimônias">Pedir orçamento</a>
+        </article>
+      </div>
+
+      <div class="orcamento revela" id="orcamento">
+        <div>
+          <h3 class="titulo" style="font-size:clamp(28px,3.4vw,46px)">Me conte<br><em>da sua data</em></h3>
+          <p class="corpo" style="margin-top:18px; font-size:.96em">
+            Preencha e o WhatsApp abre com a mensagem pronta. Respondo no mesmo dia,
+            e datas de sábado costumam fechar com meses de antecedência.
+          </p>
+          <p class="corpo" style="margin-top:16px; font-size:.92em">
+            Prefere o Instagram? <a href="https://instagram.com/ksiozeklucas" target="_blank" rel="noopener" style="color:var(--ametista-luz)">@ksiozeklucas</a>
+          </p>
+        </div>
+
+        <div>
+          <div class="campos">
+            <div class="campo">
+              <label for="f-nome">SEU NOME</label>
+              <input id="f-nome" type="text" placeholder="Lucas e Ana" autocomplete="name">
+            </div>
+            <div class="campo">
+              <label for="f-data">DATA DO EVENTO</label>
+              <input id="f-data" type="date">
+            </div>
+            <div class="campo">
+              <label for="f-local">CIDADE E LOCAL</label>
+              <input id="f-local" type="text" placeholder="Umuarama — Igreja São José">
+            </div>
+            <div class="campo">
+              <label for="f-tipo">FORMATO</label>
+              <select id="f-tipo">
+                <option>Teclado solo</option>
+                <option selected>Teclado e voz</option>
+                <option>Outras cerimônias</option>
+              </select>
+            </div>
+            <div class="campo campo--largo">
+              <label for="f-msg">ALGUMA MÚSICA EM MENTE?</label>
+              <textarea id="f-msg" placeholder="A entrada tem que ser aquela música do nosso primeiro encontro…"></textarea>
+            </div>
+            <div class="campo campo--largo">
+              <button class="btn" id="enviar" type="button">Abrir conversa no WhatsApp</button>
+              <p class="aviso" id="aviso" role="status"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ PORTFÓLIO ══════════════ -->
+  <section id="portfolio">
+    <div class="faixa">
+      <div class="cabecalho">
+        <div class="revela">
+          <p class="assinatura">Portfólio</p>
+          <h2 class="titulo">Como <em>soa</em><br>ao vivo</h2>
+        </div>
+        <p class="corpo revela" data-atraso="1">
+          Gravações feitas nas próprias cerimônias, sem estúdio e sem retoque.
+          Arraste para o lado ou use as setas.
+        </p>
+      </div>
+    </div>
+
+    <div class="faixa">
+      <div class="palco-carrossel">
+        <div class="trilho" id="trilho">
+
+          <figure class="slide" data-video="https://instagram.com/ksiozeklucas">
+            <div class="slide__tela"><span class="slide__play"></span></div>
+            <figcaption class="slide__legenda">
+              <div><h3>Entrada da noiva</h3><p>IGREJA · UMUARAMA</p></div>
+              <span class="slide__dur">2:41</span>
+            </figcaption>
+          </figure>
+
+          <figure class="slide" data-video="https://instagram.com/ksiozeklucas">
+            <div class="slide__tela"><span class="slide__play"></span></div>
+            <figcaption class="slide__legenda">
+              <div><h3>Ave Maria</h3><p>CERIMÔNIA RELIGIOSA</p></div>
+              <span class="slide__dur">3:12</span>
+            </figcaption>
+          </figure>
+
+          <figure class="slide" data-video="https://instagram.com/ksiozeklucas">
+            <div class="slide__tela"><span class="slide__play"></span></div>
+            <figcaption class="slide__legenda">
+              <div><h3>Momento das alianças</h3><p>CERIMÔNIA · REGIÃO</p></div>
+              <span class="slide__dur">2:05</span>
+            </figcaption>
+          </figure>
+
+          <figure class="slide" data-video="https://instagram.com/ksiozeklucas">
+            <div class="slide__tela"><span class="slide__play"></span></div>
+            <figcaption class="slide__legenda">
+              <div><h3>Entrada das damas e pajens</h3><p>IGREJA · UMUARAMA</p></div>
+              <span class="slide__dur">1:58</span>
+            </figcaption>
+          </figure>
+
+          <figure class="slide" data-video="https://instagram.com/ksiozeklucas">
+            <div class="slide__tela"><span class="slide__play"></span></div>
+            <figcaption class="slide__legenda">
+              <div><h3>Saída dos noivos</h3><p>AO AR LIVRE</p></div>
+              <span class="slide__dur">1:47</span>
+            </figcaption>
+          </figure>
+
+        </div>
+      </div>
+
+      <div class="controles">
+        <button class="seta" id="anterior" aria-label="Vídeo anterior">‹</button>
+        <div class="pontos" id="pontos"></div>
+        <button class="seta" id="proximo" aria-label="Próximo vídeo">›</button>
+      </div>
+
+      <div class="repertorio revela">
+        <div><h4>Antes de começar</h4><p>Prelúdio enquanto os convidados chegam e se acomodam, em volume de conversa.</p></div>
+        <div><h4>Entradas</h4><p>Padrinhos, damas e pajens, noivo, e a entrada da noiva no tempo exato do passo dela.</p></div>
+        <div><h4>Ritos</h4><p>Alianças, velas, leitura, votos e adoração — cada bloco com dinâmica própria.</p></div>
+        <div><h4>Saída</h4><p>Marcha final e o que tocar até o último convidado deixar a igreja.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ FEEDBACKS ══════════════ -->
+  <section id="feedbacks">
+    <div class="faixa">
+      <div class="cabecalho">
+        <div class="revela">
+          <p class="assinatura">Feedbacks</p>
+          <h2 class="titulo">O que dizem<br><em>depois</em></h2>
+        </div>
+        <p class="corpo revela" data-atraso="1">
+          O melhor retorno costuma chegar no dia seguinte, quando a poeira baixa e a
+          pessoa lembra do momento em que a música entrou.
+        </p>
+      </div>
+
+      <div class="depoimentos">
+        <article class="depo revela">
+          <div class="depo__estrelas" aria-label="5 de 5">★★★★★</div>
+          <p>Ele ensaiou a entrada comigo no dia, no horário certo, e acertou o tempo do meu passo. Chorei antes de chegar no altar.</p>
+          <footer><span class="depo__inicial">AM</span><span class="depo__quem"><b>Ana &amp; Murilo</b><span>UMUARAMA · 2024</span></span></footer>
+        </article>
+
+        <article class="depo revela" data-atraso="1">
+          <div class="depo__estrelas" aria-label="5 de 5">★★★★★</div>
+          <p>Chegou cedo, montou tudo sozinho e ninguém precisou se preocupar com o som. Isso, num casamento, vale ouro.</p>
+          <footer><span class="depo__inicial">RC</span><span class="depo__quem"><b>Rafaela C.</b><span>CERIMONIALISTA</span></span></footer>
+        </article>
+
+        <article class="depo revela" data-atraso="2">
+          <div class="depo__estrelas" aria-label="5 de 5">★★★★★</div>
+          <p>Pedimos uma música que não era do repertório dele. Ele mandou o áudio arranjado na semana seguinte.</p>
+          <footer><span class="depo__inicial">JB</span><span class="depo__quem"><b>Júlia &amp; Bruno</b><span>CIANORTE · 2025</span></span></footer>
+        </article>
+
+        <article class="depo revela">
+          <div class="depo__estrelas" aria-label="5 de 5">★★★★★</div>
+          <p>Chamei para um culto de bodas. Estudou o repertório da igreja antes e conduziu a celebração inteira sem um tropeço.</p>
+          <footer><span class="depo__inicial">PS</span><span class="depo__quem"><b>Pastor Silvio</b><span>UMUARAMA</span></span></footer>
+        </article>
+
+        <article class="depo revela" data-atraso="1">
+          <div class="depo__estrelas" aria-label="5 de 5">★★★★★</div>
+          <p>Tem 19 anos e uma postura de profissional antigo. Responde rápido, cumpre horário e toca muito bem.</p>
+          <footer><span class="depo__inicial">MF</span><span class="depo__quem"><b>Marina F.</b><span>MÃE DA NOIVA</span></span></footer>
+        </article>
+
+        <article class="depo revela" data-atraso="2">
+          <div class="depo__estrelas" aria-label="5 de 5">★★★★★</div>
+          <p>A gente queria piano de verdade e não tinha espaço. Ele resolveu com o teclado dele e soou melhor do que eu imaginava.</p>
+          <footer><span class="depo__inicial">LT</span><span class="depo__quem"><b>Letícia T.</b><span>NOIVA · 2025</span></span></footer>
+        </article>
+      </div>
+
+      <div class="numeros revela">
+        <div><b>2023</b><span>PRIMEIRA CERIMÔNIA</span></div>
+        <div><b>5</b><span>ANOS DE TECLADO</span></div>
+        <div><b>2,5</b><span>ANOS DE ESTUDO FORMAL</span></div>
+        <div><b>61</b><span>TECLAS DO CT-X5000</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ CHAMADA FINAL ══════════════ -->
+  <section class="final">
+    <div class="faixa">
+      <div class="teclado-css revela" aria-hidden="true">
+        <i></i><i class="preta"></i><i></i><i class="preta"></i><i></i><i></i><i class="preta"></i><i></i><i class="preta"></i><i></i><i class="preta"></i><i></i>
+      </div>
+      <h2 class="titulo revela">Sua data<br><em>ainda está livre</em></h2>
+      <p class="corpo revela" data-atraso="1">
+        Me mande o dia e o local. Eu confirmo a disponibilidade e já mando uma sugestão
+        de repertório para a entrada.
+      </p>
+      <a class="btn revela" data-atraso="2" href="#orcamento">Consultar minha data</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="rodape">
+  <div class="faixa">
+    <div class="rodape__grade">
+      <div>
+        <h4>Lucas Ksiozek Pereira</h4>
+        <p class="corpo" style="font-size:15px; max-width:34ch">
+          Tecladista de casamentos e cerimônias. Umuarama, Paraná — atendo a região.
+        </p>
+      </div>
+      <div>
+        <h4>Ir para</h4>
+        <div class="rodape__links">
+          <a href="#historia">Minha história</a>
+          <a href="#contrate">Contrate-me</a>
+          <a href="#portfolio">Portfólio</a>
+          <a href="#feedbacks">Feedbacks</a>
+        </div>
+      </div>
+      <div>
+        <h4>Falar comigo</h4>
+        <div class="rodape__links">
+          <a href="https://instagram.com/ksiozeklucas" target="_blank" rel="noopener">Instagram @ksiozeklucas</a>
+          <a href="#orcamento">WhatsApp</a>
+          <a href="#orcamento">Pedir orçamento</a>
+        </div>
+      </div>
+    </div>
+    <div class="rodape__fim">
+      <span>© <span id="ano"></span> Lucas Ksiozek Pereira</span>
+      <span>Casio CT-X5000 · som próprio · Umuarama–PR</span>
+    </div>
+  </div>
+</footer>
+
+<a class="flutuante" id="flutuante" href="#orcamento">♪ Consultar data</a>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
